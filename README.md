@@ -16,24 +16,26 @@ javacode/the-java-files-that-you-put-here.any-extension
 
 * any class will be a actor ( the class name is the actor name)
 * any method will be a custom block ( with the name and parameters that you put)
-* any code inside the methods will be compiled using the correspondents blocks
+* any code inside the methods will be compiled using the correspondent blocks
 
-<
-	class actor
+```
+class actor // the actor will be named 'actor' on scratch
+{
+	public int power(int base,int exp) // a custom block called power with two arguments
 	{
-		public void power(int base,int exp)
+		int power_return = base; // you specify the return with a variable named <method_name>_return
+		for(int i=1;i<exp;i++)
 		{
-			int power_return = base;
-			for(int i=1;i<exp;i++)
-			{
-				power_return *= base;
-			}
-		}
-		
-		public void test()
-		{
-			int result = power(random(1,10),random(2,5));
-			waitSeconds(1);
+			power_return *= base;
 		}
 	}
->
+	
+	public void test() // a custom block called test with no arguments
+	{
+		int result = power(random(1,10),random(2,5)); // yeah, you can have a method reporter here
+		waitSeconds(1); // you can call scratch blocks using a method call ( it is not complete )
+	}
+}
+```
+
+
