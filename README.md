@@ -1,16 +1,16 @@
 # scratchcompiler
-this project is a tool to compile java source code into a runnable scratch project. ( pre-alpha! )
+this project is a tool to compile java source code into a runnable scratch project. ( pre-alpha! ) <br>
 
-to build and run it, 
-download the sources and unzip it on a folder
-open this folder as a project on eclipse
-configure the buildpath of the two .jar on lib folder
-and press RUN
+<b>to build and run it:</b>
+* download the sources and unzip it on a folder 
+* open this folder as a project on eclipse 
+* configure the buildpath of the two .jar on lib folder 
+* and press RUN 
 
-the folder called 'javacode' is where you put the scratch source
-the folder called project, please don't change anything
-and will be created a file called genereate.sb2, wich is you project compiled from 
-javacode/the-java-files-that-you-put-here.any-extension
+the folder called 'javacode' is where you put the scratch source <br>
+the folder called project, please don't change anything <br>
+after you run will be created a file called generated.sb2, wich is you project compiled from <br>
+javacode/the-java-files-that-you-put-here.any-extension <br>
 
 # How to write a scratch project in java
 
