@@ -19,21 +19,21 @@ javacode/the-java-files-that-you-put-here.any-extension
 * any code inside the methods will be compiled using the correspondents blocks
 
 <
-class actor
-{
-	public void power(int base,int exp)
+	class actor
 	{
-		int power_return = base;
-		for(int i=1;i<exp;i++)
+		public void power(int base,int exp)
 		{
-			power_return *= base;
+			int power_return = base;
+			for(int i=1;i<exp;i++)
+			{
+				power_return *= base;
+			}
+		}
+		
+		public void test()
+		{
+			int result = power(random(1,10),random(2,5));
+			waitSeconds(1);
 		}
 	}
-	
-	public void test()
-	{
-		int result = power(random(1,10),random(2,5));
-		waitSeconds(1);
-	}
-}
 >
