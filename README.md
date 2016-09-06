@@ -18,15 +18,15 @@ javacode/the-java-files-that-you-put-here.any-extension
 * any method will be a custom block ( with the name and parameters that you put)
 * any code inside the methods will be compiled using the correspondent blocks
 
-```
+```java
 class actor // the actor will be named 'actor' on scratch
 {
 	public int power(int base,int exp) // a custom block called power with two arguments
 	{
 		int power_return = base; // you specify the return with a variable named <method_name>_return
-		for(int i=1;i<exp;i++)
+		for(int i=1;i<exp;i++) // a for loop is a repeat until( not condition ) with the counter var
 		{
-			power_return *= base;
+			power_return *= base; // this in fact is power_return = power_return * base
 		}
 	}
 	
