@@ -1,0 +1,17 @@
+class actor
+{
+	public void power(int base,int exp)
+	{
+		int power_return = base;
+		for(int i=1;i<exp;i++)
+		{
+			power_return *= base;
+		}
+	}
+	
+	public void test()
+	{
+		int result = power(random(1,10),random(2,5));
+		waitSeconds(1);
+	}
+}
