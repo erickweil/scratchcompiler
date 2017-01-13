@@ -42,21 +42,32 @@ javacode/the-java-files-that-you-put-here.any-extension <br>
 * any method will be a custom block ( with the name and parameters that you put)
 * any code inside the methods will be compiled using the correspondent blocks
 
+ALERT
+
+* be careful with variables, they are GLOBAL, scope? what is that?
+* method parameters can't be changed
+* recursion may will not work as expected in java, as said above variables are global
+
 ```java
 class actor // the actor will be named 'actor' on scratch
 {
 	public int power(int base,int exp) // a custom block called power with two arguments
 	{
-		int power_return = base; // you specify the return with a variable named <method_name>_return
-		for(int i=1;i<exp;i++) // a for loop is a repeat until( not condition ) with the counter var
+		int result = base; // you can't modify parameters
+		for(int k=1;k<exp;k++) // counter ( k instead of i because all variables are global )
 		{
-			power_return *= base; // this in fact is power_return = power_return * base
+			result *= base; // this in fact is power_return = power_return * base
 		}
+		return result; // this is a shortcut to assign to a variable named <method_name>_return and then stop that script
 	}
-	
+
 	public void test() // a custom block called test with no arguments
-	{
-		int result = power(random(1,10),random(2,5)); // yeah, you can have a method reporter here
+	{	
+		int[] powers_of_two = new int[]{0,0,0,0,0,0,0,0,0,0};
+		for(int i=1;i<=10;i++) // a for loop is a repeat until( not condition ) with the counter var
+		{
+			powers_of_two[i] = power(2,i);
+		}
 		waitSeconds(1); // you can call scratch blocks using a method call ( it is not complete )
 	}
 }
