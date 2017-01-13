@@ -36,6 +36,7 @@ public class ConvertHierarquia{
 	public static Map<String,Tipo> variables_types;
 	public static ArrayList<String> method_params;
 	public static Map<String,String> jsonmethods_names;
+	public static String scope_method;
 	public static Map<String,Tipo> lists_types;
 	static{
 		variables_types = new HashMap<>();
@@ -123,6 +124,7 @@ public class ConvertHierarquia{
 	public static JSONArray convert_metodo(Hierarquia parent)
 	{
 		String method_name = parent.leafGet(SimpleParser.Identifier);
+		scope_method = method_name;
 		JSONArray metodo = new JSONArray();
 		metodo.add(0);
 		metodo.add(0);
@@ -139,6 +141,7 @@ public class ConvertHierarquia{
 			for(Hierarquia parameter : parameters)
 			{
 				String type = parameter.deepFGet("type", 1).toString();
+				
 				String name = parameter.deepFGet("variableDeclaratorId",1).toString();
 				json_parameters.add(name);
 				json_emptyparameters.add("");
@@ -150,7 +153,7 @@ public class ConvertHierarquia{
 				//JSONArray get_par = new JSONArray();
 				//get_par.addAll(Arrays.asList("getParam",name,"r"));
 				//tempassign_stat.add(get_par);
-				variables_types.put(name, Tipo.STRING);
+				variables_types.put(name, Tipo.getTipo(type));
 				method_params.add(name);
 				//parameters_declare.add(tempassign_stat);
 			}
@@ -350,11 +353,28 @@ public class ConvertHierarquia{
 				statements.add(while_statement);
 			}
 				break;
+			case "return":
+			{
+				// 'return' expression? ';'
+				Hierarquia returnExpression = parentstat.children.size() == 3 ? parentstat.deepFGet("expression", 1) : null;
+				tempvar = 0;
+				JSONArray tempassign_stat = new JSONArray();
+				tempassign_stat.add("setVar:to:");
+				tempassign_stat.add(scope_method+"_return");
+				convert_expression(returnExpression,statements,tempassign_stat);
+				statements.add(tempassign_stat);
+				
+				JSONArray stopThisScript = new JSONArray();
+				//["stopScripts", "this script"]
+				stopThisScript.add("stopScripts");
+				stopThisScript.add("this script");
+				statements.add(stopThisScript);
+			}
+				break;
 			case "assert": 
 			case "try" :
 			case "switch" :
 			case "synchronized" :
-			case "return" :
 			case "throw" :
 			case "break" :
 			case "continue" :
@@ -510,7 +530,7 @@ public class ConvertHierarquia{
 							append_array.add(reporter);
 						}
 					}
-					else if(jsonmethods_names.containsKey(methName))
+					else
 					{
 						JSONArray call = new JSONArray();
 						call.add("call");
@@ -529,10 +549,6 @@ public class ConvertHierarquia{
 						{
 							declareMethTemp(methName,prev_statement,append_array);
 						}
-					}
-					else
-					{
-						System.err.println("Method "+methName+" do not exist!");
 					}
 				}
 				break;
@@ -570,6 +586,8 @@ public class ConvertHierarquia{
 				{
 						
 					case "+":
+						
+						//if(getValueTipo(left) == Tipo.STRING || getValueTipo(right) == Tipo.STRING)
 						if(left.getReturnTipo() == Tipo.STRING || right.getReturnTipo() == Tipo.STRING)
 						{
 							finalop = translate_op.get("concatenate");
@@ -885,6 +903,25 @@ public class ConvertHierarquia{
 			}
 		}
 		return null;
+	}
+	
+	//tem que ver se isso é o melhor
+	static Tipo getValueTipo(Node var)
+	{
+		if(var == null) return null;
+		if(var.getType() == SimpleParser.Identifier)
+		{
+			String varName = var.getText();
+			if(!variables_types.containsKey(varName))
+			{
+				return var.getReturnTipo();
+			}
+			else
+			{
+				return variables_types.get(varName);
+			}
+		}
+		return var.getReturnTipo();
 	}
 	
 	static boolean assignArrayOrVariable(Hierarquia expression_Var,Hierarquia exression_Assign,List<JSONArray> prev_statement)
